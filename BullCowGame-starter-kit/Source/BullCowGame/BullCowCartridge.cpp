@@ -4,6 +4,7 @@
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
+    PrintLine("Hi There!");
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
