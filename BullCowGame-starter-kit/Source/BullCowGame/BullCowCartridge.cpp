@@ -12,6 +12,7 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 
     SetupGame(); //Setting up game
 
+    PrintLine(TEXT("The number of possible words is %i"), HiddenWordList.Num());
     PrintLine(TEXT("The HiddenWord is: %s."), *HiddenWord); //Debug line
 }
 
@@ -40,10 +41,6 @@ void UBullCowCartridge::SetupGame()
     PrintLine(TEXT("Guess the %i letter word"), HiddenWord.Len());
     PrintLine(TEXT("You have %i lives."), Lives);
     PrintLine(TEXT("Type in your guess and \npress enter to continue...")); //Prompt Player for Guess
-
-    // const TCHAR HW[] = TEXT("plums");
-    // PrintLine(TEXT("Character 1 of the hidden word is: %c"), HiddenWord[0]);
-    // PrintLine(TEXT("The 4th character of HW is: %c"), HW[3]);
 }
 
 void UBullCowCartridge::EndGame()
@@ -103,4 +100,17 @@ bool UBullCowCartridge::IsIsogram(FString Word) const
     }
     
     return true;
+}
+
+TArray<FString> UBullCowCartridge::GetValidWords(TArray<FString> HiddenWords)
+{
+    TArray<FString> ValidWords;
+    for(int32 Index = 0 ; Index < HiddenWords.Num() ; Index++)
+    {
+        if(HiddenWords[Index].Len() >= 4 && HiddenWords[Index].Len() <=8 && IsIsogram(HiddenWords[Index]))
+        {
+            ValidWords.Emplace(HiddenWords[Index]);
+        }
+    }
+    return ValidWords;
 }
