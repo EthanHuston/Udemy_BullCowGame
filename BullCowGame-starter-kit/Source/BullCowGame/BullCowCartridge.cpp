@@ -7,50 +7,60 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 
     SetupGame(); //Setting up game
 
-    PrintLine(TEXT("The HiddenWord is: %s. \nIt is %i characters long."), *HiddenWord, HiddenWord.Len()); //Debug line
-
-    //Welcoming the Player
-    PrintLine(TEXT("Welcome to the Bull Cow Game!"));
-    PrintLine(TEXT("Guess the %i letter word"), HiddenWord.Len()); //Replace magic number!!!
-    PrintLine(TEXT("Press enter to continue..."));
-
-    //Prompt for guess
+    PrintLine(TEXT("The HiddenWord is: %s."), *HiddenWord); //Debug line
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
-{
-    ClearScreen(); 
-    //Check PlayerGuess
-
-    if (Input == HiddenWord)
+{ 
+    if (bGameOver)
     {
-        PrintLine(TEXT("You've guessed correctly! You win!"));
-    } 
-    else
+      ClearScreen();
+      SetupGame();
+    }  
+    else //Checking PlayerGuess
     {
-        if (Input.Len() != HiddenWord.Len())
+        if (Input == HiddenWord)
         {
-            PrintLine(TEXT("The Hidden Word is %i characters long, Try again!"), HiddenWord.Len()); //Magic number!
+            PrintLine(TEXT("You've guessed correctly! You win!"));
+            EndGame();
+        } 
+        else
+        {
+            PrintLine(TEXT("Lost a life!"));
+            PrintLine(TEXT("%i"), --Lives);
+            if(Lives > 0)
+            {
+                if (Input.Len() != HiddenWord.Len())
+                {
+                     PrintLine(TEXT("Sorry, try guessing again! \nYou have %i lives remaining"), Lives);
+                }
+            }
+            else
+            {
+                PrintLine(TEXT("You have no lives left!"));
+                EndGame();
+            } 
         }
-        
-        PrintLine(TEXT("Wrong answer! You have Lost!"));
     }
-
-    //Check if isogram
-    //Prompt to guess again
-    //Check if right # of characters
-    //Prompt to guess again
-    //If correct, win game
-    //Else...
-    //Decrement life
-    //Are lives > 0?
-    //If Yes GuessAgain/Show lives
-    //If No GameOver, Show word
-    //Prompt to PlayAgain
 }
 
 void UBullCowCartridge::SetupGame()
 {
-    HiddenWord = TEXT("cake"); 
-    Lives = 4; 
+    
+    //Welcoming the Player
+    PrintLine(TEXT("Welcome to the Bull Cow Game!"));
+
+    HiddenWord = TEXT("cakes"); 
+    Lives = HiddenWord.Len();
+    bGameOver = false;
+
+    PrintLine(TEXT("Guess the %i letter word"), HiddenWord.Len());
+    PrintLine(TEXT("You have %i lives."), Lives);
+    PrintLine(TEXT("Type in your guess and \npress enter to continue...")); //Prompt Player for Guess
+}
+
+void UBullCowCartridge::EndGame()
+{
+    bGameOver = true;
+    PrintLine(TEXT("Press enter to continue..."));
 }
