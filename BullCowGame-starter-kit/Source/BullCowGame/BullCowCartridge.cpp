@@ -8,9 +8,8 @@ void UBullCowCartridge::BeginPlay() // When the game starts
     PrintLine(TEXT("Guess the 4 letter word")); //Replace magic number!!!
     PrintLine(TEXT("Press enter to continue..."));
 
-    //Setting up game
-    HiddenWord = TEXT("cake"); //Set the  HiddenWord
-    //Set lives
+    SetupGame(); //Setting up game
+
     //Prompt for guess
     
 }
@@ -27,8 +26,12 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
     } 
     else
     {
-        PrintLine(TEXT("Wrong answer!"));
+        if (Input.Len() != HiddenWord.Len())
+        {
+            PrintLine(TEXT("The Hidden Word is 4 characters long, Try again!")); //Magic number!
+        }
         
+        PrintLine(TEXT("Wrong answer! You have Lost!"));
     }
 
     //Check if isogram
@@ -42,4 +45,10 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
     //If Yes GuessAgain/Show lives
     //If No GameOver, Show word
     //Prompt to PlayAgain
+}
+
+void UBullCowCartridge::SetupGame()
+{
+    HiddenWord = TEXT("cake"); 
+    Lives = 4; 
 }
