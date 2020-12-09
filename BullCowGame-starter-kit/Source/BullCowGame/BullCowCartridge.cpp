@@ -89,7 +89,10 @@ void UBullCowCartridge::ProcessGuess(const FString& Guess)
     FBullCowCount Score = GetBullCows(Guess);
 
     PrintLine(TEXT("You have %i Bulls and %i Cows."), Score.Bulls, Score.Cows);
-
+    if(Lives <= 3)
+    {
+        PrintLine(TEXT("HINT: The first letter is %c and\nthe last letter is %c."), HiddenWord[0], HiddenWord[HiddenWord.Len() - 1]);
+    }
     PrintLine(TEXT("Guess again, you have %i lives left."), Lives);
 }
 
