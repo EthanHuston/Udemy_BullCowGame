@@ -8,12 +8,14 @@ void UBullCowCartridge::BeginPlay() // When the game starts
     PrintLine(TEXT("Guess the 4 letter word")); //Replace magic number!!!
     PrintLine(TEXT("Press enter to continue..."));
     
+    HiddenWord = TEXT("cake");
+    
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
 {
     ClearScreen(); 
-    FString HiddenWord = TEXT("cake"); //Move outside this function
+    
 
     if (Input == HiddenWord)
     {
@@ -23,6 +25,4 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
     {
         PrintLine(TEXT("Wrong answer!"));
     }
-    
-    //PrintLine(Input);
 }
