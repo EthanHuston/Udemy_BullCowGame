@@ -10,9 +10,10 @@ void UBullCowCartridge::BeginPlay() // When the game starts
     const FString WordListPath = FPaths::ProjectContentDir() / TEXT("WordList/HiddenWordList.txt");
     FFileHelper::LoadFileToStringArray(HiddenWordList, *WordListPath);
 
+
     SetupGame(); //Setting up game
 
-    PrintLine(TEXT("The number of possible words is %i"), HiddenWordList.Num());
+    PrintLine(TEXT("The number of valid words is %i"), GetValidWords(HiddenWordList).Num());
     PrintLine(TEXT("The HiddenWord is: %s."), *HiddenWord); //Debug line
 }
 
@@ -102,9 +103,10 @@ bool UBullCowCartridge::IsIsogram(FString Word) const
     return true;
 }
 
-TArray<FString> UBullCowCartridge::GetValidWords(TArray<FString> HiddenWords)
+TArray<FString> UBullCowCartridge::GetValidWords(TArray<FString> HiddenWords) const
 {
     TArray<FString> ValidWords;
+
     for(int32 Index = 0 ; Index < HiddenWords.Num() ; Index++)
     {
         if(HiddenWords[Index].Len() >= 4 && HiddenWords[Index].Len() <=8 && IsIsogram(HiddenWords[Index]))
