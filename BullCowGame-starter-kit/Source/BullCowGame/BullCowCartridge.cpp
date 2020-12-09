@@ -69,7 +69,7 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
         PrintLine(TEXT("No repeating letters, guess again."));
         return;
     }
-    
+
     //Remove a life
     PrintLine(TEXT("Lost a life!"));
     --Lives;
@@ -87,11 +87,15 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
     PrintLine(TEXT("Guess again, you have %i lives left."), Lives);
 }
 
-bool UBullCowCartridge::IsIsogram(FString Word)
+bool UBullCowCartridge::IsIsogram(FString Word) const
 {
-    //Create return bool
-    //Loop through all characters
-    //Check current character vs all character after
-    //If any characters are the same, return false
+    for(int32 Index = 0; Index < Word.Len() - 1; Index++)
+    {
+        for(int32 Comparison = Index + 1; Comparison < Word.Len(); Comparison++)
+        {
+            if(Word[Index] == Word[Comparison]) return false;
+        }
+    }
+    
     return true;
 }
